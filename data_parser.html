@@ -1,0 +1,61 @@
+<head><link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<style>font-family: 'Roboto', sans-serif;</style>
+<style>h4{font-size:13.3333px;display:inline;opacity:0.0;}</style>
+<style>@keyframes fade{0%{opacity:1.0;}100%{opacity:0.0;}}</style>
+<title>Data Parser for Recording</title>
+<meta charset="utf-8">
+</head>
+<body style="font-family:Roboto;">
+<h1>Data Parsing for Robot Recordings</h1>
+<h1>Recording Output <input id="in" style = "width:100%;font-size:25px;"><button onclick="parseRobotDataButton();" style="font-size:20px;">Organize</button></h1>
+<hr>
+<h2>Button Presses</h2>
+<h3 id="lengthB"></h3>
+<input id="buttons" readonly><button onclick='document.getElementById("buttons").select();document.getElementById("buttons").setSelectionRange(0, 999999);document.execCommand("copy");document.getElementById("bcopy").setAttribute("style", "animation:fade 1.5s;");setTimeout(function(){document.getElementById("bcopy").setAttribute("style", "");}, 1500);'>Copy</button><h4 id="bcopy">&emsp;Copied!</h4>
+<hr>
+<h2>Times</h2>
+<h3 id="lengthT"></h3>
+<input id="timers" readonly><button onclick='document.getElementById("timers").select();document.getElementById("timers").setSelectionRange(0, 999999);document.execCommand("copy");document.getElementById("tcopy").setAttribute("style", "animation:fade 1.5s;");setTimeout(function(){document.getElementById("tcopy").setAttribute("style", "");}, 1500);'>Copy</button><h4 id="tcopy">&emsp;Copied!</h4>
+<hr>
+<h2>Joystick Values</h2>
+<h3 id="lengthJ"></h3>
+<input id="joyStick" readonly><button onclick='document.getElementById("joyStick").select();document.getElementById("joyStick").setSelectionRange(0, 999999);document.execCommand("copy");document.getElementById("jcopy").setAttribute("style", "animation:fade 1.5s;");setTimeout(function(){document.getElementById("jcopy").setAttribute("style", "");}, 1500);'>Copy</button><h4 id="jcopy">&emsp;Copied!</h4>
+<hr>
+<h2>Complete Output</h2>
+<textarea id="complete" readonly></textarea><button onclick='document.getElementById("complete").select();document.getElementById("complete").setSelectionRange(0, 999999);document.execCommand("copy");document.getElementById("ccopy").setAttribute("style", "animation:fade 1.5s;");setTimeout(function(){document.getElementById("ccopy").setAttribute("style", "");}, 1500);'>Copy</button><h4 id="ccopy">&emsp;Copied!</h4>
+<center>
+<hr>
+<h1>Instructions</h1>
+<h2>Copy the output from the recording software. (Ctrl+A to highlight and Ctrl+C to copy.)<br>Stop the recording program.<br>Paste exact output into the recording output box. (Ctrl+V to paste.)<br>Click the organize button.<br>Hit copy by the complete output box.<br>Paste the output in the playback file between the two comments that say where to paste (around line 18). <b>OVERWRITE OR ERASE OLD CODE</b><br>Save and flash the playback program. If it fails, try flashing again. Errors can occur when flashing large files wirelessly.</h2>
+</center>
+<script>
+function parseRobotDataButton(){parseRobotData(eval("[" + document.getElementById("in").value.slice(0, -1) + "]"))}
+function parseRobotData(rDat){
+	document.getElementById("buttons").value = "";
+	document.getElementById("timers").value = "";
+	document.getElementById("joyStick").value = "";
+	var buttonPresses = [];
+	var timerTimes = [];
+	var joystickValues = [];
+	var a = 0;
+	while(a < rDat.length){
+		document.getElementById("buttons").value += '"' + rDat[a][0] + '",'
+		document.getElementById("timers").value += rDat[a][1] + ','
+		buttonPresses.push(rDat[a][0])
+		timerTimes.push(rDat[a][1])
+		if(rDat[a].length == 3){
+			joystickValues.push(rDat[a][2])
+			document.getElementById("joyStick").value += rDat[a][2] + ','
+		}
+		a+=1;
+	}
+	document.getElementById("buttons").value = document.getElementById("buttons").value.slice(0,-1);
+	document.getElementById("timers").value = document.getElementById("timers").value.slice(0,-1);
+	document.getElementById("joyStick").value = document.getElementById("joyStick").value.slice(0,-1);
+	document.getElementById("lengthB").innerHTML = "Length: " + String(buttonPresses.length);
+	document.getElementById("lengthT").innerHTML = "Length: " + String(timerTimes.length);
+	document.getElementById("lengthJ").innerHTML = "Length: " + String(joystickValues.length);
+	document.getElementById("complete").value = "int mainLength = " + String(buttonPresses.length) + ";\nstring buttonPresses[" + String(buttonPresses.length) + "] = {" + document.getElementById("buttons").value + "};\nint timerValues[" + String(timerTimes.length) + "] = {" + document.getElementById("timers").value + "};\nint joystickValues[" + String(joystickValues.length) + "] = {" + document.getElementById("joyStick").value + "};";
+}
+</script>
+</body>
