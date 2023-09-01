@@ -9,7 +9,7 @@ Robot code and other tools created for the 2020 BEST Robotics competition "Outbr
 
 The robot code used for recording user inputs to be played back for the autonomous task.
 
-(Output can be found in RobotC under `Robot > Debugger Windows > Debug Stream`. If you don't see this option, check that the menu lever is set to Super User under `Window > Menu Level`.)
+(Output can be found in RobotC under `Robot > Debugger Windows > Debug Stream`. If you don't see this option, check that the menu level is set to Super User under `Window > Menu Level`.)
 
 #### data_parser.html
 
