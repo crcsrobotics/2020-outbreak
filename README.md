@@ -21,7 +21,7 @@ The robot code used for playing back the user inputs for the autonomous task and
 
 ## Areas To Improve
 
-- Documentation is non-existant.
+- Documentation is non-existent.
 - Recording and playback being separated into multiple files is a hassle to maintain and any changes to one must be manually reconciled with the other.
 - Code could be greatly simplified, especially if statements in robot code.
 - The HTML file is very poorly written with inline JavaScript that should be moved to functions.
